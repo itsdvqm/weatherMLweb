@@ -70,3 +70,11 @@ def predict_rain(temp: float, humidity: float):
     prediction = rain_model.predict(input_data)
     
     return {"rain": bool(prediction[0])}
+
+@app.post("/predict-rainfall")
+def predict_rainfall(temp: float, humidity: float, windspeed: float):
+    input_data = np.array([[temp, humidity, windspeed]])
+    input_scaled = scaler.transform(input_data)
+    predicted_rainfall = rainfall_model.predict(input_scaled)
+    return {"predicted_rainfall": predicted_rainfall[0]}
+
