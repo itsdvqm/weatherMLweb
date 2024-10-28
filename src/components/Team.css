@@ -1,0 +1,17 @@
+.team {
+    padding: 2rem;
+  }
+  
+  .team-members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .team-member {
+    flex: 1 1 200px;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    text-align: center;
+  }
+  

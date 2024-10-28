@@ -14,7 +14,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -25,6 +25,10 @@ app.mount("/output_plots", StaticFiles(directory="output_plots"), name="output_p
 # Load the trained logistic regression model for rain prediction
 with open('ml_models/logistic_regression_model.pkl', 'rb') as file:
     rain_model = pickle.load(file)
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the Weather ML App API!"}
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
@@ -71,10 +75,5 @@ def predict_rain(temp: float, humidity: float):
     
     return {"rain": bool(prediction[0])}
 
-@app.post("/predict-rainfall")
-def predict_rainfall(temp: float, humidity: float, windspeed: float):
-    input_data = np.array([[temp, humidity, windspeed]])
-    input_scaled = scaler.transform(input_data)
-    predicted_rainfall = rainfall_model.predict(input_scaled)
-    return {"predicted_rainfall": predicted_rainfall[0]}
+
 

@@ -1,0 +1,16 @@
+.model-performance {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .results img {
+    margin: 10px 0;
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
