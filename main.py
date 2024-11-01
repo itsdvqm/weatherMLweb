@@ -1,7 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 import shutil
 import os
@@ -11,7 +9,7 @@ import numpy as np
 from kmeansclustering import run_kmeans_clustering
 from linear_regression import run_linear_regression
 from logistic_regression import run_logistic_regression
-from datetime import datetime, timedelta
+from datetime import datetime
 
 app = FastAPI()
 

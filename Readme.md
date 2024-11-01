@@ -1,65 +1,75 @@
-# Weather Prediction Machine Learning Project
+# Weather Prediction and Analysis Web Application
 
-This project aims to predict weather conditions using various machine learning models. The project is divided into several scripts, each responsible for a specific task.
+## Overview
 
-## Files
+This web application provides tools for weather data analysis and prediction. It allows users to upload CSV files, perform various machine learning operations, and visualize weather predictions.
 
-1. **cleandata.py**
-   - Cleans and preprocesses the raw weather data.
+## Features
 
-2. **data_analyze.py**
-   - Analyzes the raw data to extract statistics.
+1. **CSV File Upload**: Users can upload CSV files containing weather data.
+2. **Machine Learning Models**:
+   - K-Means Clustering
+   - Linear Regression
+   - Logistic Regression
+3. **Weather Predictions**:
+   - Rain prediction based on temperature and humidity
+   - Other data forecast
+4. **Data Visualization**:
+   - Plotly.js charts for displaying results
+   - Historical rainfall data visualization
 
-3. **kmeansclustering.py**
-   - Runs the K-Means clustering model 
+## Technologies Used
 
-4. **linear_regression.py**
-   - Runs the linear regression model
+- Frontend: React.js
+- Backend: FastAPI
+- Data Visualization: Plotly.js
+- Machine Learning: scikit-learn
 
-5. **logistic_regression.py**
-   - Runs the logistic regression model
+## Setup and Installation
 
-## How to Run
+1. Install dependecies:
+pip install -r requirements.txt
+2. Start Backend:
+python -m uvicorn main:app --reload
+3. Start the frontend development server:
+npm start
+4. Open a web browser and navigate to `http://localhost:3000`
 
-1. **Data Cleaning**
-   ```bash
-   python cleandata.py
-   ```
+## Available Endpoints
 
-2. **Data Analysis**
-   ```bash
-   python data_analyze.py
-   ```
+The following API endpoints are available:
 
-3. **K-Means Clustering**
-   ```bash
-   python kmeansclustering.py
-   ```
+1. `POST /upload`
+- Uploads a CSV file for analysis
+- Returns: List of columns and file path
 
-4. **Linear Regression**
-   ```bash
-   python linear_regression.py
-   ```
+2. `POST /run-kmeans`
+- Runs K-Means clustering on selected columns
+- Returns: Paths to original and clustered data plots
 
-5. **Logistic Regression**
-   ```bash
-   python logistic_regression.py
-   ```
+3. `POST /run-linear-regression`
+- Runs Linear Regression on selected features and target
+- Returns: Paths to various analysis plots
 
-### Data Analysis Results
-The results of the data analysis are stored in the `data_analysis_results` folder. 
+4. `POST /run-logistic-regression`
+- Runs Logistic Regression on selected features and target
+- Returns: Paths to various analysis plots
 
-### Model Outputs
-The outputs from the machine learning models, including plots and performance metrics, are saved in the `output_plots` folder.
+5. `POST /predict-rain`
+- Predicts rain based on temperature and humidity
+- Returns: Rain prediction (boolean)
 
-## Requirements
+6. `GET /data`
+- Get the required values from predicted dataset
 
-- Python 3.x
-- Required libraries: pandas, numpy, scikit-learn, matplotlib
+## Usage
 
-## Installation
+1. Upload Data: Use the file upload feature to load your CSV weather data.
+2. Select Model: Choose between K-Means Clustering, Linear Regression, or Logistic Regression.
+3. Configure Model: Select appropriate columns/features for the chosen model.
+4. Run Analysis: Execute the selected model and view the results.
+5. Weather Predictions: Use the prediction tools to forecast rain or rainfall amounts.
 
-Install the required libraries using pip:
-```bash
-pip install pandas numpy scikit-learn matplotlib
-```
+## API Integration
+
+The application uses the Visual Crossing Weather API to fetch historical weather data for Melbourne. The data range is from 2024-01-01 to 2024-12-31.
