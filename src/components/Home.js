@@ -1,7 +1,7 @@
 import React from 'react';
 import './Home.css';
-import section1Image from './images/section1.png'; 
-import section2Image from './images/section2.png'; 
+import section1Image from './icons/section1.png'; 
+import section2Image from './icons/section2.png'; 
 
 const Home = () => (
   <div>

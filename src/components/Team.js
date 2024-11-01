@@ -1,6 +1,6 @@
 import React from 'react';
 import './Team.css';
-import section2Image from './images/section2.png';
+import section2Image from './icons/section2.png';
 
 const Team = () => (
   <div>
