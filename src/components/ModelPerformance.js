@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './ModelPerformance.css';
 
-const App = () => {
+const ModelPerformance = () => {
   const [csvFile, setCsvFile] = useState(null);
   const [columns, setColumns] = useState([]);
   const [selectedModel, setSelectedModel] = useState('');
@@ -10,9 +11,7 @@ const App = () => {
   const [filePath, setFilePath] = useState('');
   const [results, setResults] = useState(null);
 
-  const handleFileChange = (e) => {
-    setCsvFile(e.target.files[0]);
-  };
+  const handleFileChange = (e) => setCsvFile(e.target.files[0]);
 
   const handleFileUpload = async () => {
     if (!csvFile) return;
@@ -38,21 +37,17 @@ const App = () => {
   };
 
   const handleColumnSelection = (column) => {
-    if (selectedModel === 'kmeans') {
-      setSelectedColumns(prev => 
-        prev.includes(column) 
-          ? prev.filter(col => col !== column) 
+    setSelectedColumns(prev =>
+      selectedModel === 'kmeans'
+        ? prev.includes(column)
+          ? prev.filter(col => col !== column)
           : [...prev, column]
-      );
-    } else {
-      if (column !== selectedTarget) {
-        setSelectedColumns(prev => 
-          prev.includes(column) 
-            ? prev.filter(col => col !== column) 
-            : [...prev, column]
-        );
-      }
-    }
+        : column !== selectedTarget
+        ? prev.includes(column)
+          ? prev.filter(col => col !== column)
+          : [...prev, column]
+        : prev
+    );
   };
 
   const handleTargetSelection = (column) => {
@@ -65,7 +60,7 @@ const App = () => {
       alert("Please select at least two columns for KMeans clustering.");
       return;
     }
-    if ((selectedModel === 'linear' || selectedModel === 'logistic') && (selectedColumns.length < 1 || !selectedTarget)) {
+    if ((selectedModel === 'linear' || selectedModel === 'logistic') && (!selectedTarget || selectedColumns.length < 1)) {
       alert("Please select at least one feature and one target for regression.");
       return;
     }
@@ -73,22 +68,11 @@ const App = () => {
     try {
       let response;
       if (selectedModel === 'kmeans') {
-        response = await axios.post('http://localhost:8000/run-kmeans', {
-          columns: selectedColumns,
-          file_path: filePath,
-        });
+        response = await axios.post('http://localhost:8000/run-kmeans', { columns: selectedColumns, file_path: filePath });
       } else if (selectedModel === 'linear') {
-        response = await axios.post('http://localhost:8000/run-linear-regression', {
-          features: selectedColumns,
-          target: selectedTarget,
-          file_path: filePath,
-        });
+        response = await axios.post('http://localhost:8000/run-linear-regression', { features: selectedColumns, target: selectedTarget, file_path: filePath });
       } else if (selectedModel === 'logistic') {
-        response = await axios.post('http://localhost:8000/run-logistic-regression', {
-          features: selectedColumns,
-          target: selectedTarget,
-          file_path: filePath,
-        });
+        response = await axios.post('http://localhost:8000/run-logistic-regression', { features: selectedColumns, target: selectedTarget, file_path: filePath });
       }
       setResults(response.data);
     } catch (error) {
@@ -97,49 +81,40 @@ const App = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Assignment 3 Web</h1>
-      
-      <div className="mb-8">
-        <input type="file" onChange={handleFileChange} className="mb-4" />
-        <button onClick={handleFileUpload} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Upload CSV
-        </button>
+    <div className="form-container">
+      <h1>Model Performance Analysis</h1>
+
+      <div className="upload-section">
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleFileUpload}>Upload CSV</button>
       </div>
 
       {columns.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Select Model</h2>
-          <div className="flex space-x-4">
-            <button onClick={() => handleModelSelection('kmeans')} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              KMeans Clustering
-            </button>
-            <button onClick={() => handleModelSelection('linear')} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-              Linear Regression
-            </button>
-            <button onClick={() => handleModelSelection('logistic')} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-              Logistic Regression
-            </button>
+        <div className="model-selection">
+          <h2>Select Model</h2>
+          <div className="btn-group">
+            <button onClick={() => handleModelSelection('kmeans')}>KMeans Clustering</button>
+            <button onClick={() => handleModelSelection('linear')}>Linear Regression</button>
+            <button onClick={() => handleModelSelection('logistic')}>Logistic Regression</button>
           </div>
         </div>
       )}
 
       {selectedModel && (
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Select Columns for {selectedModel === 'kmeans' ? 'Clustering' : 'Regression'}</h2>
+        <div className="column-selection">
+          <h2>Select Columns for {selectedModel === 'kmeans' ? 'Clustering' : 'Regression'}</h2>
           {selectedModel !== 'kmeans' && (
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">Select Target Variable</h3>
+            <div className="target-selection">
+              <h3>Select Target Variable</h3>
               <div className="grid grid-cols-4 gap-4">
                 {columns.map((col, idx) => (
-                  <label key={idx} className="flex items-center">
+                  <label key={idx}>
                     <input
                       type="radio"
                       name="target"
                       value={col}
                       checked={selectedTarget === col}
                       onChange={() => handleTargetSelection(col)}
-                      className="mr-2"
                     />
                     {col}
                   </label>
@@ -147,55 +122,50 @@ const App = () => {
               </div>
             </div>
           )}
-          <h3 className="text-xl font-semibold mb-2">Select {selectedModel === 'kmeans' ? 'Columns' : 'Features'}</h3>
-          <div className="grid grid-cols-4 gap-4 mb-4">
+          <h3>Select {selectedModel === 'kmeans' ? 'Columns' : 'Features'}</h3>
+          <div className="grid grid-cols-4 gap-4">
             {columns.map((col, idx) => (
-              <label key={idx} className="flex items-center">
+              <label key={idx}>
                 <input
                   type="checkbox"
                   checked={selectedColumns.includes(col)}
                   onChange={() => handleColumnSelection(col)}
                   disabled={selectedModel !== 'kmeans' && selectedTarget === col}
-                  className="mr-2"
                 />
                 {col}
               </label>
             ))}
           </div>
-          <button 
-            onClick={handleRunModel} 
-            disabled={selectedModel === 'kmeans' ? selectedColumns.length < 2 : selectedColumns.length < 1 || !selectedTarget}
-            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-          >
-            Run {selectedModel === 'kmeans' ? 'KMeans' : selectedModel === 'linear' ? 'Linear Regression' : 'Logistic Regression'}
-          </button>
+        </div>
+      )}
+
+      {selectedModel && (
+        <div className="run-section">
+          <h2>Run {selectedModel === 'kmeans' ? 'KMeans Clustering' : selectedModel}</h2>
+          <button onClick={handleRunModel}>Run {selectedModel}</button>
         </div>
       )}
 
       {results && (
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">Results</h2>
-          <div className="grid grid-cols-2 gap-4">
+        <div className="results">
+          <h2>Results</h2>
+          <div className="graph-container">
             {selectedModel === 'kmeans' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.originalPlot}`} alt="Original Data" className="w-full" />
-                <img src={`http://localhost:8000/output_plots/${results.clusteredPlot}`} alt="Clustered Data" className="w-full" />
+                <img src={`http://localhost:8000/output_plots/${results.originalPlot}`} alt="Original Data" />
+                <img src={`http://localhost:8000/output_plots/${results.clusteredPlot}`} alt="Clustered Data" />
               </>
             )}
             {selectedModel === 'linear' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.predictedVsActual}`} alt="Predicted vs Actual" className="w-full" />
-                <img src={`http://localhost:8000/output_plots/${results.residuals}`} alt="Residuals" className="w-full" />
-                <img src={`http://localhost:8000/output_plots/${results.modelFitness}`} alt="Model Fitness" className="w-full" />
-                <img src={`http://localhost:8000/output_plots/${results.errorMetrics}`} alt="Error Metrics" className="w-full" />
+                <img src={`http://localhost:8000/output_plots/${results.predictedVsActual}`} alt="Predicted vs Actual" />
+                <img src={`http://localhost:8000/output_plots/${results.residuals}`} alt="Residuals" />
               </>
             )}
             {selectedModel === 'logistic' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.confusionMatrix}`} alt="Confusion Matrix" className="w-full" />
-                <img src={`http://localhost:8000/output_plots/${results.rocCurve}`} alt="ROC Curve" className="w-full" />
-                <img src={`http://localhost:8000/output_plots/${results.modelFitness}`} alt="Model Fitness" className="w-full" />
-                <img src={`http://localhost:8000/output_plots/${results.classificationReport}`} alt="Classification Report" className="w-full" />
+                <img src={`http://localhost:8000/output_plots/${results.confusionMatrix}`} alt="Confusion Matrix" />
+                <img src={`http://localhost:8000/output_plots/${results.rocCurve}`} alt="ROC Curve" />
               </>
             )}
           </div>
@@ -205,4 +175,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default ModelPerformance;

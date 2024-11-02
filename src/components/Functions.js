@@ -178,7 +178,6 @@ const WeatherChart = () => {
           <p>Loading data...</p>
         )}
   
-        {/* Move Rain Prediction section here */}
         <div style={{ marginTop: '20px' }}>
           <h3>Rain Prediction</h3>
           <Input
@@ -203,9 +202,9 @@ const WeatherChart = () => {
             <div style={{ marginTop: '20px', textAlign: 'center' }}>
               <h3>Prediction Result:</h3>
               {rainPrediction === "Rain" ? (
-                <img src={rainyIcon} alt="Rainy" style={{ width: '64px', height: '64px' }} />
+                <img src={rainyIcon} alt="Rainy" style={{ width: '100px', height: '100px' }} />
               ) : (
-                <img src={sunnyIcon} alt="Sunny" style={{ width: '64px', height: '64px' }} />
+                <img src={sunnyIcon} alt="Sunny" style={{ width: '100px', height: '100px' }} />
               )}
               <p>{rainPrediction}</p>
             </div>

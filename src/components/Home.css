@@ -1,67 +1,143 @@
-.main-section{
-  margin: 12vh 0 25vh 0;
-  text-align: center;
-}
-
-.header {
-    padding: 2rem;
-    font-size: 2.5vw;
-    font-weight: bold;
-  }
-.sub-header{
-  margin: 3vh 0;
-  font-size: 1.5vw;
-  color: grey;
-}
-.btn a{
-  border: 0.1rem black dotted;
-  margin: 10vh 1vw;
-  padding: 0.75rem;
+.welcome-section {
+  background-color: #fffde7;
+  border: 2px solid #ffeb3b;
   border-radius: 10px;
-  font-size: 1.5vw;
-}
-.line{
-  width: 100%;
-  height: 0.5px;
-  background-color: gray;
-}
-.small-section{
-  display: flex;
-  margin: 12vh 0 0 0 ;
-}
-.small-section div{
-  width: 50%;
-  margin-bottom: 10vh;
-}
-.left{
-  text-align: justify;
-  padding-right: 2vw;
-}
-.left h1{
-  font-weight: bold;
-  font-size: 2.5vw;
-  margin-bottom: 3rem;
-}
-.left p{
-  font-size: 1vw;
-}
-.right{
-  text-align: right;
-  padding-left: 2vw;
-  width: 100%
-}
-.right img{
-  width: 90%;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(255, 235, 59, 0.2);
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-@media(max-width: 900px){
-  .header, .left h1{
-    font-size: 5vw;
-  }
-  .sub-header, .btn a{
-    font-size: 3vw;
-  }
-  .left p{
-    font-size: 2vw;
-  }
+.welcome-section h1 {
+  font-size: 2.5rem;
+  color: #fbc02d;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.welcome-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.welcome-buttons a button {
+  background-color: #fbc02d;
+  color: white;
+  padding: 0.75rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.welcome-buttons a button:hover {
+  background-color: #f9a825;
+  transform: translateY(-3px);
+}
+
+.machine-learning-section {
+  background-color: #e6f7ff;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.machine-learning-section .left {
+  flex: 1;
+}
+
+.machine-learning-section h1 {
+  font-size: 2rem;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.machine-learning-section p {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.machine-learning-section ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.machine-learning-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.machine-learning-section .right img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.weather-analysis-section {
+  background-color: #f0f8ff;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.weather-analysis-section .left {
+  flex: 1;
+}
+
+.weather-analysis-section h1 {
+  font-size: 2rem;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.weather-analysis-section p {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.weather-analysis-section ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.weather-analysis-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.weather-analysis-section .right img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }

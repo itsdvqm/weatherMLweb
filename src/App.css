@@ -24,3 +24,8 @@
     color: #333;
   }
   
+  .app-container {
+    background-color: #d1e7f5; 
+    min-height: 100vh; 
+  }
+  

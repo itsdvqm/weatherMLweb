@@ -4,6 +4,7 @@ import Home from './components/Home';
 import ModelPerformance from './components/ModelPerformance';
 import MainFunction from './components/Functions';
 import Team from './components/Team';
+import Feedback from './components/Feedback';
 
 const App = () => {
   return (
@@ -12,12 +13,13 @@ const App = () => {
         <nav className="bg-white shadow-lg">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-between items-center py-4">
-              <Link to="/" className="text-lg font-semibold text-gray-700">Assignment 3 Web</Link>
+              <Link to="/" className="text-lg font-semibold text-gray-700">Weather ML Analysis</Link>
               <div className="hidden md:flex space-x-4">
                 <Link to="/" className="text-gray-500 hover:text-green-500 transition duration-300">Home</Link>
                 <Link to="/model-performance" className="text-gray-500 hover:text-green-500 transition duration-300">Model Performance</Link>
                 <Link to="/main-function" className="text-gray-500 hover:text-green-500 transition duration-300">Main Function</Link>
                 <Link to="/team" className="text-gray-500 hover:text-green-500 transition duration-300">Team</Link>
+                <Link to="/feedback" className="text-gray-500 hover:text-green-500 transition duration-300">Feedback</Link>
               </div>
             </div>
           </div>
@@ -28,6 +30,7 @@ const App = () => {
             <Route path="/model-performance" element={<ModelPerformance />} />
             <Route path="/main-function" element={<MainFunction />} />
             <Route path="/team" element={<Team />} />
+            <Route path="/feedback" element={<Feedback />} />
           </Routes>
         </div>
       </div>
