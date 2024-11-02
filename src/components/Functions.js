@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
 import moment from 'moment';
-import { Card, Input, Button } from 'antd'; 
+import { Card, Input, Button } from 'antd';
 import axios from 'axios';
 import sunnyIcon from './icons/sunny.jpg';
 import rainyIcon from './icons/rainy.jpg';
+
 
 const WeatherChart = () => {
   const [startDate, setStartDate] = useState(moment().subtract(30, 'days').format('YYYY-MM-DD'));
@@ -82,8 +83,9 @@ const WeatherChart = () => {
       barmode: 'overlay',
       xaxis: { title: 'Date' },
       yaxis: { title: 'Temperature (°C)' },
-      showlegend: true, 
-      hovermode: 'x unified'
+      showlegend: true,
+      hovermode: 'x unified',
+      responsive: true,
     },
   };
 
@@ -102,6 +104,7 @@ const WeatherChart = () => {
       title: 'Precipitation',
       xaxis: { title: 'Date' },
       yaxis: { title: 'Precipitation (mm)' },
+      responsive: true,
     },
   };
 
@@ -143,11 +146,13 @@ const WeatherChart = () => {
         title: 'Pressure (hPa)',
         overlaying: 'y',
         side: 'right',
-        position: 0.95, 
+        position: 0.95,
       },
+      responsive: true,
     },
   };
-  
+
+
 
   return (
     <Card>
@@ -159,7 +164,7 @@ const WeatherChart = () => {
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-          
+
           <label>End Date:</label>
           <input
             type="date"
@@ -167,44 +172,71 @@ const WeatherChart = () => {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </div>
-  
+
         {weatherData.length > 0 ? (
           <>
-            <Plot data={temperatureChart.data} layout={temperatureChart.layout} />
-            <Plot data={precipChart.data} layout={precipChart.layout} />
-            <Plot data={windPressureChart.data} layout={windPressureChart.layout} />
+            <Plot style={{ width: '100%' }} data={temperatureChart.data} layout={temperatureChart.layout} />
+            <Plot style={{ width: '100%' }} data={precipChart.data} layout={precipChart.layout} />
+            <Plot style={{ width: '100%' }} data={windPressureChart.data} layout={windPressureChart.layout} />
           </>
         ) : (
           <p>Loading data...</p>
         )}
-  
+
+        {/* Move Rain Prediction section here */}
         <div style={{ marginTop: '20px' }}>
-          <h3>Rain Prediction</h3>
-          <Input
-            placeholder="Temperature"
-            type="number"
-            value={temp}
-            onChange={(e) => setTemp(e.target.value)}
-            required
-          />
-          <Input
-            placeholder="Humidity"
-            type="number"
-            value={humidity}
-            onChange={(e) => setHumidity(e.target.value)}
-            required
-          />
-          <Button onClick={handlePredictRain} type="primary" style={{ marginTop: '10px' }}>
-            Predict Rain
-          </Button>
-  
+          <form>
+            <h1 style={{ fontWeight: 'bold' }}>Rain Prediction</h1>
+            <h4>Temperature</h4>
+            <Input
+              placeholder="Temperature"
+              type="number"
+              value={temp}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (value < -50) {
+                  setTemp(-50);
+                } else if (value > 50) {
+                  setTemp(50);
+                } else {
+                  setTemp(value);
+                }
+              }}
+              style={{ width: '10rem' }}
+              inputmode="numeric"
+              required
+            />
+            <h4>Humidity</h4>
+            <Input
+              placeholder="Humidity"
+              type="number"
+              value={humidity}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (value < 0) {
+                  setHumidity(0);
+                } else if (value > 100) {
+                  setHumidity(100);
+                } else {
+                  setHumidity(value);
+                }
+              }}
+              style={{ width: '10rem' }}
+              inputmode="numeric"
+              required
+            />
+            <Button onClick={handlePredictRain} disabled={!temp || !humidity} type="primary" style={{ marginTop: '10px', display: 'block' }}>
+              Predict Rain
+            </Button>
+
+          </form>
           {rainPrediction !== null && (
             <div style={{ marginTop: '20px', textAlign: 'center' }}>
               <h3>Prediction Result:</h3>
               {rainPrediction === "Rain" ? (
-                <img src={rainyIcon} alt="Rainy" style={{ width: '100px', height: '100px' }} />
+                <img src={rainyIcon} alt="Rainy" style={{ width: '64px', height: '64px' }} />
               ) : (
-                <img src={sunnyIcon} alt="Sunny" style={{ width: '100px', height: '100px' }} />
+                <img src={sunnyIcon} alt="Sunny" style={{ width: '64px', height: '64px' }} />
               )}
               <p>{rainPrediction}</p>
             </div>
